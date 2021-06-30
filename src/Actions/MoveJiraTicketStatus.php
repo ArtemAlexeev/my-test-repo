@@ -16,4 +16,12 @@ class MoveJiraTicketStatus
     {
         echo 'Hello, Jira! :)';
     }
+
+    /**
+     * @return string
+     */
+    public function getInProgressStatus(): string
+    {
+        return 'In Progress';
+    }
 }
