@@ -7,15 +7,12 @@ jobs:
   add-jira-description:
     runs-on: ubuntu-latest
     steps:
-      - name: Echo
-        run: echo "🍏 This Jira ticket id is ${{ secrets.JIRA_BASE_URL }} --- ${{ secrets.JIRA_USER_EMAIL }} --- ${{ secrets.JIRA_USER_EMAIL }}"
-
       - name: login
         uses: atlassian/gajira-login@master
         env:
           JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
           JIRA_USER_EMAIL: ${{ secrets.JIRA_USER_EMAIL }}
-          JIRA_API_TOKEN: ${{ secrets.JIRA_USER_EMAIL }}
+          JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
 
       - name: Find Jira ticket id
         uses: atlassian/gajira-find-issue-key@master
