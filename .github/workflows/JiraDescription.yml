@@ -1,5 +1,6 @@
 name: jira-description
 on:
+  push:
   pull_request:
     types: [ opened ]
 jobs:
