@@ -24,4 +24,12 @@ class MoveJiraTicketStatus
     {
         return 'In Progress';
     }
+
+    /**
+     * @return string
+     */
+    public function getCodeReviewStatus(): string
+    {
+        return 'Code Review';
+    }
 }
