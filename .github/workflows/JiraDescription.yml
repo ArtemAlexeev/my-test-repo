@@ -1,0 +1,17 @@
+name: jira-description
+on:
+  pull_request:
+    types: [ opened ]
+jobs:
+  add-jira-description:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: cakeinpanic/jira-description-action@v0.2.0
+        name: jira-description
+        with:
+          github-token: ${{ secrets.MY_TOKEN || github.token }}
+          jira-token: developer.alexeev.artem@gmail.com:${{ secrets.JIRA_API_TOKEN }}
+          jira-base-url: https://alieksieievdev.atlassian.net
+          skip-branches: '^(develop|master|release\/v\d+)$'
+          jira-project-key: 'ALDEV'
