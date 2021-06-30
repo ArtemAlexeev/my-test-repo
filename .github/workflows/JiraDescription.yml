@@ -22,3 +22,9 @@ jobs:
 
       - name: Echo33
         run: echo "🍏 This Jira ticket id is ${{ steps.ticketId.outputs.issue }}."
+
+      - name: Transition issue
+        uses: atlassian/gajira-transition@master
+        with:
+          issue: ${{ steps.ticketId.outputs.issue }}
+          transition: "In progress"
