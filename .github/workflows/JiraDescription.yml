@@ -10,7 +10,7 @@ jobs:
       - uses: cakeinpanic/jira-description-action@v0.2.0
         name: jira-description
         with:
-          github-token: ${{ github.token }}
+          github-token: ${{ secrets.MY_TOKEN || github.token }}
           jira-token: developer.alexeev.artem@gmail.com:${{ secrets.JIRA_API_TOKEN }}
           jira-base-url: https://alieksieievdev.atlassian.net
           skip-branches: '^(develop|master|release\/v\d+)$'
