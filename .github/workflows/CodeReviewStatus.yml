@@ -6,6 +6,9 @@ jobs:
   test-status-job:
     runs-on: ubuntu-latest
     steps:
+      - name: debug github object on PL OPENED
+        run: echo "${{ toJson(github) }}"
+
       - name: Parse Jira ticket id
         shell: bash
         id: ticket-id
