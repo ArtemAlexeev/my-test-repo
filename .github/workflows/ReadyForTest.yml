@@ -13,6 +13,3 @@ jobs:
 
       - name: echo logs
         run: echo "${{ github.event.pull_request.mergeable }} --- ${{ github.event.pull_request.mergeable_state }}"
-
-      - name: echo logs 3
-        run:
