@@ -22,8 +22,13 @@ jobs:
       - name: Echo Jira ticket id
         run: echo "${{ steps.ticket-id.outputs.issue }}"
 
+      - name: Extract branch name
+        shell: bash
+        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+        id: extract_branch
+
       - name: Echo branch name
-        run: echo "${{ GITHUB_REF##*/ }}"
+        run: echo "${{ steps.extract_branch.outputs.issue }}"
 
       - name: Move to Code Review status
         uses: atlassian/gajira-transition@master
