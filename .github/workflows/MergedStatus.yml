@@ -9,3 +9,13 @@ jobs:
       - name: Echo logs
         if: github.event.pull_request.merged == true
         run: echo "action - ${{ toJson(github.event.action) }} --- branch - ${{ toJson(github.head_ref) }}"
+
+      - name: Jira ticket id
+        shell: bash
+        id: jira-ticket-id
+        run: echo SPRT-323-asdasd-232-dsds | grep -oP '^SPRT-\d+'
+
+#      - name: Extract branch name
+#        shell: bash
+#        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+#        id: extract_branch

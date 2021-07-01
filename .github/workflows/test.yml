@@ -1,0 +1,14 @@
+name: Test status
+on:
+  push:
+jobs:
+  test-status-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Jira ticket id
+        shell: bash
+        id: ticket-id
+        run: echo "##[set-output name=issue;]$(echo ${GITHUB_REF#refs/heads/}) | grep -oP '^ALDEV-\d+'"
+
+      - name: Echo branch name
+        run: echo "${{ steps.ticket-id.outputs.issue }}"
