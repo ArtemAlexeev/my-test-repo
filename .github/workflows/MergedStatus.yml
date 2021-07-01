@@ -5,31 +5,16 @@ on:
 jobs:
   merged-status-job:
     runs-on: ubuntu-latest
-#    if: github.event.pull_request.merged == 'true'
+    if: github.event.pull_request.merged == true
     steps:
-       # debug
-      - name: debug github event
-        run: echo "${{ toJson(github.event) }}"
-
-      - name: debug github event
-        run: echo "${{ github.event.pull_request.merged }}"
-
-      - name: github.event.pull_request.merged # true
-        if: github.event.pull_request.merged == true
-        run: echo "${{ toJson(github.event.pull_request.merged) }}"
-
-# end debug
-
-
-
       - name: Parse Jira ticket id
         shell: bash
         id: ticket-id
         run: echo "##[set-output name=issue;]$(echo ${{ github.head_ref }} | grep -oP '^ALDEV-\d+')"
-
+# debug
       - name: Echo Jira ticket id
         run: echo "${{ steps.ticket-id.outputs.issue }}"
-
+# debug end
       - name: Login to Jira
         uses: atlassian/gajira-login@master
         env:
@@ -38,7 +23,6 @@ jobs:
           JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
 
       - name: Move to Merged status
-        if: github.event.pull_request.merged == true
         uses: atlassian/gajira-transition@master
         with:
           issue: ${{ steps.ticket-id.outputs.issue }}
