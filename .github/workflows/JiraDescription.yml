@@ -27,12 +27,12 @@ jobs:
           issue: ${{ steps.ticketId.outputs.issue }}
           transition: "In progress" # Code review
 
-      - name: Move to Ready For Test status
-        uses: atlassian/gajira-transition@master
-        if: github.event_name == 'pull_request' && github.event.action == 'opened'
-        with:
-          issue: ${{ steps.ticketId.outputs.issue }}
-          transition: "To Do" # Ready For Test
+#      - name: Move to Ready For Test status
+#        uses: atlassian/gajira-transition@master
+#        if: github.event_name == 'pull_request' && github.event.action == 'opened'
+#        with:
+#          issue: ${{ steps.ticketId.outputs.issue }}
+#          transition: "To Do" # Ready For TestЫ
 
       - name: Move to Merged status
         uses: atlassian/gajira-transition@master
