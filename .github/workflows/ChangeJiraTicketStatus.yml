@@ -23,6 +23,12 @@ jobs:
         with:
           from: ${{ github.head_ref }} #branch
 
+      - name: Find Jira ticket id with branch
+        id: ticket-id
+        uses: atlassian/gajira-find-issue-key@master
+        with:
+          from: branch
+
       - name: Echo Jira ticket id
         run: echo "${{ steps.ticket-id.outputs.issue }}"
 #
