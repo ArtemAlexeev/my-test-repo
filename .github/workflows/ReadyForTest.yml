@@ -7,8 +7,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Echo logs
-        if: github.event.review.state == 'approved' && github.event.pull_request.mergeable
+        if: github.event.review.state == 'approved' && github.event.pull_request.mergeable == 'true'
         run: echo "state - ${{ github.event.review.state }} --- branch - ${{ toJson(github.head_ref) }} --- action - ${{ toJson(github.event.action) }}"
 
       - name: echo logs
         run: echo "${{ github.event.pull_request.mergeable }} --- ${{ github.event.pull_request.mergeable_state }}"
+
+      - name: echo logs 2
+        run: echo "${{ github.mergeable }} --- ${{ github.mergeable_state }}"

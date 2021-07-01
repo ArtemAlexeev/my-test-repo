@@ -1,7 +1,6 @@
-name: Jira ticket to Merged status
+name: Test status
 on:
-  pull_request:
-    types: [opened]
+  push:
 jobs:
   test-status-job:
     runs-on: ubuntu-latest
@@ -14,15 +13,15 @@ jobs:
       - name: Echo Jira ticket id
         run: echo "${{ steps.ticket-id.outputs.issue }}"
 
-      - name: Login to Jira
+      - name: login
         uses: atlassian/gajira-login@master
         env:
           JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
           JIRA_USER_EMAIL: ${{ secrets.JIRA_USER_EMAIL }}
           JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
 
-      - name: Move to In Progress status
+      - name: Move to Done status
         uses: atlassian/gajira-transition@master
         with:
           issue: ${{ steps.ticket-id.outputs.issue }}
-          transition: "In Progress"
+          transition: "Done" # Code review
