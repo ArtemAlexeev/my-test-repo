@@ -21,7 +21,7 @@ jobs:
         id: ticket-id
         uses: atlassian/gajira-find-issue-key@master
         with:
-          from: ${{ github.head_ref }} #branch
+          from: refs/heads/${{ github.head_ref }} #branch
 
       - name: Find Jira ticket id with branch
         id: ticket-id-branch
