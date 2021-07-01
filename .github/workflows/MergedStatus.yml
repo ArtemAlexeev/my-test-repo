@@ -1,9 +1,9 @@
-name: Move Jira ticket to Merged status
+name: Ready for Test status
 on:
-  pull_request_review:
-    types: [submitted]
+  pull_request:
+    types: [closed]
 jobs:
-  in-merged-status-job:
+  merged-status-job:
     runs-on: ubuntu-latest
     steps:
       - name: Echo logs
