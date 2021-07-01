@@ -7,47 +7,52 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: login
-        uses: atlassian/gajira-login@master
-        env:
-          JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
-          JIRA_USER_EMAIL: ${{ secrets.JIRA_USER_EMAIL }}
-          JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
+      - name: Echo logs
+        run: echo "${{ toJson(github) }}"
 
-      - name: Find Jira ticket id
-        id: ticket-id
-        uses: atlassian/gajira-find-issue-key@master
-        with:
-          from: branch
-
-      - name: Echo Jira ticket id
-        run: echo "${{ steps.ticket-id.outputs.issue }}"
-
-      - name: Extract branch name
-        shell: bash
-        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
-        id: extract_branch
-
-      - name: Echo branch name
-        run: echo "${{ steps.extract_branch.outputs.branch }}"
-
-      - name: Move to Code Review status
-        uses: atlassian/gajira-transition@master
-        if: github.event_name == 'pull_request' && github.event.action == 'opened'
-        with:
-          issue: ${{ steps.ticket-id.outputs.issue }}
-          transition: "In Progress" # Code review
-
-#      - name: Move to Ready For Test status
+#      - name: login
+#        uses: atlassian/gajira-login@master
+#        env:
+#          JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
+#          JIRA_USER_EMAIL: ${{ secrets.JIRA_USER_EMAIL }}
+#          JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
+#
+#      - name: Find Jira ticket id
+#        id: ticket-id
+#        uses: atlassian/gajira-find-issue-key@master
+#        with:
+#          from: branch
+#
+#      - name: Echo Jira ticket id
+#        run: echo "${{ steps.ticket-id.outputs.issue }}"
+#
+#      - name: Extract branch name
+#        shell: bash
+#        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+#        id: extract_branch
+#
+#      - name: Echo branch name
+#        run: echo "${{ steps.extract_branch.outputs.branch }}"
+#
+#
+#
+#      - name: Move to Code Review status
 #        uses: atlassian/gajira-transition@master
 #        if: github.event_name == 'pull_request' && github.event.action == 'opened'
 #        with:
-#          issue: ${{ steps.ticketId.outputs.issue }}
-#          transition: "To Do" # Ready For Test
-
-      - name: Move to Merged status
-        uses: atlassian/gajira-transition@master
-        if: github.event.pull_request.merged == 'true'
-        with:
-          issue: ${{ steps.ticket-id.outputs.issue }}
-          transition: "Done" # Merged
+#          issue: ${{ steps.ticket-id.outputs.issue }}
+#          transition: "In Progress" # Code review
+#
+##      - name: Move to Ready For Test status
+##        uses: atlassian/gajira-transition@master
+##        if: github.event_name == 'pull_request' && github.event.action == 'opened'
+##        with:
+##          issue: ${{ steps.ticketId.outputs.issue }}
+##          transition: "To Do" # Ready For Test
+#
+#      - name: Move to Merged status
+#        uses: atlassian/gajira-transition@master
+#        if: github.event.pull_request.merged == 'true'
+#        with:
+#          issue: ${{ steps.ticket-id.outputs.issue }}
+#          transition: "Done" # Merged
