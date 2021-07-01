@@ -11,6 +11,9 @@ jobs:
       - name: debug github event
         run: echo "${{ toJson(github.event) }}"
 
+      - name: debug github event
+        run: echo "${{ github.event.pull_request.merged }}"
+
       - name: github.event.pull_request.merged # true
         if: github.event.pull_request.merged == 'true'
         run: echo "${{ toJson(github.event.pull_request.merged) }}"
