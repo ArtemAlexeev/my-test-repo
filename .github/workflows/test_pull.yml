@@ -6,4 +6,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: debug github object On pull
-      run: echo "${{ toJson(github) }}"
+        run: echo "${{ toJson(github) }}"
