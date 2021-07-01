@@ -44,7 +44,7 @@ jobs:
       - name: Move to In progress status #Move to Code Review status
         uses: atlassian/gajira-transition@master
         with:
-          issue: ${{ steps.ticket-id.outputs.issue }}
+          issue: ${{ steps.ticket-id-branch.outputs.issue }}
           transition: "In Progress" # Code review
 #
 ##      - name: Move to Ready For Test status
