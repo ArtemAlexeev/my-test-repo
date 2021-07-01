@@ -23,7 +23,7 @@ jobs:
         run: echo "${{ steps.ticket-id.outputs.issue }}"
 
       - name: Echo branch name
-        run: echo "${GITHUB_REF##*/}"
+        run: echo "${{ GITHUB_REF##*/ }}"
 
       - name: Move to Code Review status
         uses: atlassian/gajira-transition@master
