@@ -28,7 +28,7 @@ jobs:
         id: extract_branch
 
       - name: Echo branch name
-        run: echo "${{ steps.extract_branch.outputs.issue }}"
+        run: echo "${{ steps.extract_branch.outputs.branch }}"
 
       - name: Move to Code Review status
         uses: atlassian/gajira-transition@master
