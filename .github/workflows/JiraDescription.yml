@@ -1,7 +1,6 @@
 name: jira-description
 on:
-  push:
-#  pull_request:
+  pull_request:
 #    types: [ opened ]
 jobs:
   add-jira-description:
