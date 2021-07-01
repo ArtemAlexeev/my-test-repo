@@ -1,0 +1,10 @@
+name: Test status
+on:
+  push:
+jobs:
+  test-status-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: debug github object On push
+        run: echo "${{ toJson(github) }}"
+#
