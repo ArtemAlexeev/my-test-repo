@@ -11,10 +11,7 @@ jobs:
         shell: bash
         id: ticket-id
         run: echo "##[set-output name=issue;]$(echo ${{ github.head_ref }} | grep -oP '^ALDEV-\d+')"
-# debug
-      - name: Echo Jira ticket id
-        run: echo "${{ steps.ticket-id.outputs.issue }}"
-# debug end
+
       - name: Login to Jira
         uses: atlassian/gajira-login@master
         env:
