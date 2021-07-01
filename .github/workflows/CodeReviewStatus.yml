@@ -1,18 +1,15 @@
-name: Jira ticket to Merged status
+name: Jira ticket to Code Review status
 on:
   pull_request:
     types: [opened]
 jobs:
-  test-status-job:
+  code-review-status-job:
     runs-on: ubuntu-latest
     steps:
-      - name: debug github object on PL OPENED
-        run: echo "${{ toJson(github) }}"
-
       - name: Parse Jira ticket id
         shell: bash
         id: ticket-id
-        run: echo "##[set-output name=issue;]$(echo ${GITHUB_REF#refs/heads/} | grep -oP '^ALDEV-\d+')"
+        run: echo "##[set-output name=issue;]$(echo ${{ github.head_ref }} | grep -oP '^ALDEV-\d+')"
 
       - name: Echo Jira ticket id
         run: echo "${{ steps.ticket-id.outputs.issue }}"
@@ -28,4 +25,4 @@ jobs:
         uses: atlassian/gajira-transition@master
         with:
           issue: ${{ steps.ticket-id.outputs.issue }}
-          transition: "In Progress"
+          transition: "In Progress" # here will be Code Review status
