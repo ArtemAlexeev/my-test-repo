@@ -1,18 +1,42 @@
 name: jira-description
 on:
   push:
-  pull_request:
-    types: [ opened ]
+#  pull_request:
+#    types: [ opened ]
 jobs:
   add-jira-description:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
     steps:
-      - uses: cakeinpanic/jira-description-action@v0.2.0
-        name: jira-description
+      - name: login
+        uses: atlassian/gajira-login@master
+        env:
+          JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
+          JIRA_USER_EMAIL: ${{ secrets.JIRA_USER_EMAIL }}
+          JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
+
+      - name: Find Jira ticket id
+        id: ticketId
+        uses: atlassian/gajira-find-issue-key@master
         with:
-          github-token: ${{ secrets.MY_TOKEN || github.token }}
-          jira-token: developer.alexeev.artem@gmail.com:${{ secrets.JIRA_API_TOKEN }}
-          jira-base-url: https://alieksieievdev.atlassian.net
-          skip-branches: '^(develop|master|release\/v\d+)$'
-          jira-project-key: 'ALDEV'
+          from: branch
+
+      - name: Move to Code Review status
+        uses: atlassian/gajira-transition@master
+        if: github.event_name == 'pull_request' && github.event.action == 'opened'
+        with:
+          issue: ${{ steps.ticketId.outputs.issue }}
+          transition: "In progress" # Code review
+
+      - name: Move to Ready For Test status
+        uses: atlassian/gajira-transition@master
+        if: github.event_name == 'pull_request' && github.event.action == 'opened'
+        with:
+          issue: ${{ steps.ticketId.outputs.issue }}
+          transition: "To Do" # Ready For Test
+
+      - name: Move to Merged status
+        uses: atlassian/gajira-transition@master
+        if: github.event.pull_request.merged == true && github.event.action == 'closed'
+        with:
+          issue: ${{ steps.ticketId.outputs.issue }}
+          transition: "Done" # Merged
