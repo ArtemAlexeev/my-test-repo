@@ -7,4 +7,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Echo logs
-        run: echo "state - ${{ github.event.review.state }} --- branch - ${{ toJson(github.head_ref) }} - action - ${{ toJson(github.event.action) }}"
+        run: echo "branch - ${{ toJson(github.head_ref) }} - action - ${{ toJson(github.event.action) }}"
