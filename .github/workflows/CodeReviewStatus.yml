@@ -7,8 +7,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Echo logs
-        if: github.event.review.state == 'approved'
         run: echo "state - ${{ github.event.review.state }} --- branch - ${{ toJson(github.head_ref) }} - action - ${{ toJson(github.event.action) }}"
-
-      - name: Echo 2
-        run: echo "${{ github.event_name }} --- ${{ github.event.action }}"
