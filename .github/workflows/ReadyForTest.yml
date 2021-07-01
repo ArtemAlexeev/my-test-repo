@@ -1,0 +1,11 @@
+name: Ready for Test status
+on:
+  pull_request_review:
+    types: [submitted]
+jobs:
+  ready-for-test-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Echo logs
+        if: github.event.review.state == 'approved'
+        run: echo "action - ${{ toJson(github.event.action) }} --- state - ${{ github.event.review.state }} --- branch - action - ${{ toJson(github.event.action) }}"
