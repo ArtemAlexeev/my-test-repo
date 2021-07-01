@@ -1,10 +1,10 @@
-name: jira-description
+name: Change Jira ticket status
 on:
   push: # delete after testing
   pull_request:
 #    types: [ opened ]
 jobs:
-  add-jira-description:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: login
@@ -15,19 +15,19 @@ jobs:
           JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
 
       - name: Find Jira ticket id
-        id: ticketId
+        id: ticket-id
         uses: atlassian/gajira-find-issue-key@master
         with:
           from: branch
 
       - name: Echo Jira ticket id
-        run: echo '${{ steps.ticketId.outputs.issue }}'
+        run: echo "${{ steps.ticket-id.outputs.issue }}"
 
       - name: Move to Code Review status
         uses: atlassian/gajira-transition@master
         if: github.event_name == 'pull_request' && github.event.action == 'opened'
         with:
-          issue: ${{ steps.ticketId.outputs.issue }}
+          issue: ${{ steps.ticket-id.outputs.issue }}
           transition: "In Progress" # Code review
 
 #      - name: Move to Ready For Test status
@@ -35,11 +35,11 @@ jobs:
 #        if: github.event_name == 'pull_request' && github.event.action == 'opened'
 #        with:
 #          issue: ${{ steps.ticketId.outputs.issue }}
-#          transition: "To Do" # Ready For TestЫ
+#          transition: "To Do" # Ready For Test
 
       - name: Move to Merged status
         uses: atlassian/gajira-transition@master
         if: github.event.pull_request.merged == true && github.event.action == 'closed'
         with:
-          issue: ${{ steps.ticketId.outputs.issue }}
+          issue: ${{ steps.ticket-id.outputs.issue }}
           transition: "Done" # Merged
