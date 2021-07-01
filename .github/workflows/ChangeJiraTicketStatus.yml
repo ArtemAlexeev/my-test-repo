@@ -39,7 +39,7 @@ jobs:
 
       - name: Move to Merged status
         uses: atlassian/gajira-transition@master
-        if: github.event.pull_request.merged == true && github.event.action == 'closed'
+        if: github.event.pull_request.merged == 'true'
         with:
           issue: ${{ steps.ticket-id.outputs.issue }}
           transition: "Done" # Merged
