@@ -15,7 +15,7 @@ jobs:
       - name: Parse Jira ticket id
         shell: bash
         id: ticket-id
-        run: echo "##[set-output name=issue;]$(echo ${GITHUB_REF#refs/heads/} | grep -oP '^ALDEV-\d+')"
+        run: echo "##[set-output name=issue;]$(echo ${{ github.head_ref }} | grep -oP '^ALDEV-\d+')"
 
       - name: Echo Jira ticket id
         run: echo "${{ steps.ticket-id.outputs.issue }}"
