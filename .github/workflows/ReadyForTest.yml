@@ -8,4 +8,4 @@ jobs:
     steps:
       - name: Echo logs
         if: github.event.review.state == 'approved'
-        run: echo "action - ${{ toJson(github.event.action) }} --- state - ${{ github.event.review.state }} --- branch - action - ${{ toJson(github.event.action) }}"
+        run: echo "state - ${{ github.event.review.state }} --- branch - ${{ toJson(github.head_ref) }} --- action - ${{ toJson(github.event.action) }}"
