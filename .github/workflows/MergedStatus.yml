@@ -1,21 +1,29 @@
-name: Merged status
+name: Jira ticket to Merged status
 on:
   pull_request:
     types: [closed]
 jobs:
-  merged-status-job:
+  test-status-job:
     runs-on: ubuntu-latest
+    if: github.event.pull_request.merged == 'true'
     steps:
-      - name: Echo logs
-        if: github.event.pull_request.merged == true
-        run: echo "action - ${{ toJson(github.event.action) }} --- branch - ${{ toJson(github.head_ref) }}"
-
-      - name: Jira ticket id
+      - name: Parse Jira ticket id
         shell: bash
-        id: jira-ticket-id
-        run: echo SPRT-323-asdasd-232-dsds | grep -oP '^SPRT-\d+'
+        id: ticket-id
+        run: echo "##[set-output name=issue;]$(echo ${GITHUB_REF#refs/heads/} | grep -oP '^ALDEV-\d+')"
 
-#      - name: Extract branch name
-#        shell: bash
-#        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
-#        id: extract_branch
+      - name: Echo Jira ticket id
+        run: echo "${{ steps.ticket-id.outputs.issue }}"
+
+      - name: Login to Jira
+        uses: atlassian/gajira-login@master
+        env:
+          JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
+          JIRA_USER_EMAIL: ${{ secrets.JIRA_USER_EMAIL }}
+          JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
+
+      - name: Move to Merged status
+        uses: atlassian/gajira-transition@master
+        with:
+          issue: ${{ steps.ticket-id.outputs.issue }}
+          transition: "Done" # Code review
