@@ -8,7 +8,7 @@ jobs:
       - name: Jira ticket id
         shell: bash
         id: ticket-id
-        run: echo "##[set-output name=issue;]$(echo ${GITHUB_REF#refs/heads/}) | grep -oP '^ALDEV-\d+'"
+        run: echo "##[set-output name=issue;]$(echo ${GITHUB_REF#refs/heads/} | grep -oP '^ALDEV-\d+')"
 
       - name: Echo branch name
         run: echo "${{ steps.ticket-id.outputs.issue }}"
