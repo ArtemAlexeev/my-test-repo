@@ -1,5 +1,6 @@
 name: jira-description
 on:
+  push: # delete after testing
   pull_request:
 #    types: [ opened ]
 jobs:
@@ -18,7 +19,7 @@ jobs:
         uses: atlassian/gajira-find-issue-key@master
         with:
           from: branch
-          
+
       - name: Echo Jira ticket id
         run: echo '${{ steps.ticketId.outputs.issue }}'
 
