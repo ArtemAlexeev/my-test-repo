@@ -1,4 +1,4 @@
-name: Change Jira ticket status
+name: In progress status
 on:
   push:
 jobs:
@@ -41,7 +41,7 @@ jobs:
       - name: Echo branch name
         run: echo "${{ steps.extract_branch.outputs.branch }}"
 
-      - name: Move to Code Review status
+      - name: Move to In progress status #Move to Code Review status
         uses: atlassian/gajira-transition@master
         with:
           issue: ${{ steps.ticket-id.outputs.issue }}
