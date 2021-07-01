@@ -1,0 +1,10 @@
+name: Ready for Test status
+on:
+  pull_request:
+    types: [closed]
+jobs:
+  merged-status-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Echo logs
+        run: echo "event_name - ${{ toJson(github) }}"
