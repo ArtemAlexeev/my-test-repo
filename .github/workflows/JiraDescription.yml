@@ -20,11 +20,23 @@ jobs:
         with:
           from: branch
 
-      - name: Echo33
-        run: echo "🍏 This Jira ticket id is ${{ steps.ticketId.outputs.issue }}."
-
-      - name: Transition issue
+      - name: Move to Code Review status
         uses: atlassian/gajira-transition@master
+        if: github.event_name == 'pull_request' && github.event.action == 'opened'
         with:
           issue: ${{ steps.ticketId.outputs.issue }}
-          transition: "In progress"
+          transition: "In progress" # Code review
+
+      - name: Move to Ready For Test status
+        uses: atlassian/gajira-transition@master
+        if: github.event_name == 'pull_request' && github.event.action == 'opened'
+        with:
+          issue: ${{ steps.ticketId.outputs.issue }}
+          transition: "To Do" # Ready For Test
+
+      - name: Move to Merged status
+        uses: atlassian/gajira-transition@master
+        if: github.event.pull_request.merged == true && github.event.action == 'closed'
+        with:
+          issue: ${{ steps.ticketId.outputs.issue }}
+          transition: "Done" # Merged
