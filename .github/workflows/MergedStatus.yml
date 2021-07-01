@@ -5,6 +5,7 @@ on:
 jobs:
   merged-status-job:
     runs-on: ubuntu-latest
+    #if: github.event.pull_request.merged == 'true'
     steps:
       - name: debug github event
         run: echo "${{ toJson(github.event) }}"
@@ -15,7 +16,8 @@ jobs:
       - name: github.event.merged
         run: echo "${{ toJson(github.event.merged) }}"
 
-      - name: github.event.pull_request.merged
+      - name: github.event.pull_request.merged # true
+        if: github.event.pull_request.merged == 'true'
         run: echo "${{ toJson(github.event.pull_request.merged) }}"
 
 
