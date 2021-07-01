@@ -1,0 +1,10 @@
+name: Move Jira ticket to Merged status
+on:
+  pull_request_review:
+    types: [submitted]
+jobs:
+  in-merged-status-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Echo logs
+        run: echo "event_name - ${{ toJson(github) }}"
