@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Echo logs
-        run: echo "event_name - ${{ toJson(github.event_name) }} --- action - ${{ github.event.action }} --- is_merged ${{ github.event.pull_request.merged }}"
+        run: echo "event_name - ${{ toJson(github.event_name) }} --- action - ${{ github.event.action }} --- is_merged ${{ github.event.pull_request.merged }} --- ${{ github.head_ref }}"
 
       - name: login
         uses: atlassian/gajira-login@master
