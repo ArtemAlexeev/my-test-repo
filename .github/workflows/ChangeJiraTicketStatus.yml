@@ -1,5 +1,6 @@
 name: Change Jira ticket status
 on:
+  push:
   pull_request:
 #    types: [ opened ]
 jobs:
