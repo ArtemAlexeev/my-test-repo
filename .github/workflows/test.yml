@@ -12,3 +12,9 @@ jobs:
 
       - name: Echo branch name
         run: echo "${{ steps.ticket-id.outputs.issue }}"
+
+      - name: Move to Done status
+        uses: atlassian/gajira-transition@master
+        with:
+          issue: ${{ steps.ticket-id.outputs.issue }}
+          transition: "Done" # Code review
