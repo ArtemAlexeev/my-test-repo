@@ -1,0 +1,10 @@
+name: Code Review status
+on:
+  pull_request:
+    types: [opened]
+jobs:
+  code-review-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Echo logs
+        run: echo "branch - ${{ toJson(github.head_ref) }} - action - ${{ toJson(github.event.action) }}"

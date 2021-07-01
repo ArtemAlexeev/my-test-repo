@@ -1,0 +1,14 @@
+name: Ready for Test status
+on:
+  pull_request_review:
+    types: [submitted]
+jobs:
+  ready-for-test-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Echo logs
+        if: github.event.review.state == 'approved' && github.event.pull_request.mergeable
+        run: echo "state - ${{ github.event.review.state }} --- branch - ${{ toJson(github.head_ref) }} --- action - ${{ toJson(github.event.action) }}"
+
+      - name: echo logs
+        run: echo "${{ github.event.pull_request.mergeable }} --- ${{ github.event.pull_request.mergeable_state }}"

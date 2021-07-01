@@ -1,4 +1,4 @@
-name: Ready for Test status
+name: Merged status
 on:
   pull_request:
     types: [closed]
@@ -7,4 +7,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Echo logs
-        run: echo "event_name - ${{ toJson(github) }}"
+        if: github.event.pull_request.merged == true
+        run: echo "action - ${{ toJson(github.event.action) }} --- branch - ${{ toJson(github.head_ref) }}"
