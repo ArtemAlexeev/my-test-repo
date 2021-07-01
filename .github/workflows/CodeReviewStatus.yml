@@ -1,17 +1,11 @@
-name: Jira ticket to Merged status
+name: Jira ticket to Code Review status
 on:
   pull_request:
     types: [opened]
 jobs:
-  test-status-job:
+  code-review-status-job:
     runs-on: ubuntu-latest
     steps:
-      - name: debug github object on PL OPENED
-        run: echo "${{ toJson(github.event) }}"
-
-      - name: Github branch name
-        run: echo "branch - ${{ github.head_ref }}"
-
       - name: Parse Jira ticket id
         shell: bash
         id: ticket-id
@@ -20,15 +14,15 @@ jobs:
       - name: Echo Jira ticket id
         run: echo "${{ steps.ticket-id.outputs.issue }}"
 
-#      - name: Login to Jira
-#        uses: atlassian/gajira-login@master
-#        env:
-#          JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
-#          JIRA_USER_EMAIL: ${{ secrets.JIRA_USER_EMAIL }}
-#          JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
-#
-#      - name: Move to In Progress status
-#        uses: atlassian/gajira-transition@master
-#        with:
-#          issue: ${{ steps.ticket-id.outputs.issue }}
-#          transition: "In Progress"
+      - name: Login to Jira
+        uses: atlassian/gajira-login@master
+        env:
+          JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
+          JIRA_USER_EMAIL: ${{ secrets.JIRA_USER_EMAIL }}
+          JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
+
+      - name: Move to In Progress status
+        uses: atlassian/gajira-transition@master
+        with:
+          issue: ${{ steps.ticket-id.outputs.issue }}
+          transition: "In Progress"
