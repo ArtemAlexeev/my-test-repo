@@ -1,6 +1,5 @@
 name: Change Jira ticket status
 on:
-  push: # delete after testing
   pull_request:
 #    types: [ opened ]
 jobs:
@@ -22,6 +21,9 @@ jobs:
 
       - name: Echo Jira ticket id
         run: echo "${{ steps.ticket-id.outputs.issue }}"
+
+      - name: Echo branch name
+        run: echo "${GITHUB_REF##*/}"
 
       - name: Move to Code Review status
         uses: atlassian/gajira-transition@master
