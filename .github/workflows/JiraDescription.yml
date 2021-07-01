@@ -24,7 +24,7 @@ jobs:
         if: github.event_name == 'pull_request' && github.event.action == 'opened'
         with:
           issue: ${{ steps.ticketId.outputs.issue }}
-          transition: "In progress" # Code review
+          transition: "In Progress" # Code review
 
 #      - name: Move to Ready For Test status
 #        uses: atlassian/gajira-transition@master
