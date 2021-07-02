@@ -20,10 +20,10 @@ jobs:
         run: echo " - ${{ toJson(github) }} "
 
       - name: Debuggithub 1
-        run: echo " - ${{ toJson(github.event.head) }} "
+        run: echo " - ${{ toJson(github.event.pull_request.head) }} "
 
       - name: Debuggithub 3
-        run: echo " - ${{ toJson(github.event.head.ref) }} "
+        run: echo " - ${{ toJson(github.event.pull_request.head.ref) }} "
 
       - name: Debug echo status
         run: echo "approve - ${{ steps.approved.outputs.approved }} "
@@ -35,7 +35,7 @@ jobs:
       - name: Parse Jira ticket id
         shell: bash
         id: ticket-id
-        run: echo "##[set-output name=issue;]$(echo ${{ github.event.head.ref }} | grep -oP '^ALDEV-\d+')"
+        run: echo "##[set-output name=issue;]$(echo ${{ github.event.pull_request.head.ref }} | grep -oP '^ALDEV-\d+')"
 
       - name: Login to Jira
         uses: atlassian/gajira-login@master
@@ -45,6 +45,7 @@ jobs:
           JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
 
       - name: Move to Merged status
+        if: contains(${{ steps.ticket-id.outputs.issue }}, 'ALDEV')
         uses: atlassian/gajira-transition@master
         with:
           issue: ${{ steps.ticket-id.outputs.issue }}
