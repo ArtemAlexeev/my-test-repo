@@ -9,14 +9,14 @@ jobs:
     steps:
       - name: Echo github
         #if: github.event.review.state == 'approved' && github.event.pull_request.mergeable == 'true'
-        run: echo "state - ${{ github }} "
+        run: echo "state - ${{ toJson(github) }} "
 
       - name: Echo event
         #if: github.event.review.state == 'approved' && github.event.pull_request.mergeable == 'true'
         run: echo "state - ${{ github.event.review.state }} --- branch - ${{ toJson(github.head_ref) }}"
 
       - name: Echo pull_request
-        run: echo "${{ github.event.pull_request }} "
+        run: echo "${{ toJson(github.event.pull_request) }} "
 
       - name: Echo mergeable
         run: echo "${{ github.event.pull_request.mergeable }} --- ${{ github.event.mergeable }} ---  ${{ github.mergeable }}"
