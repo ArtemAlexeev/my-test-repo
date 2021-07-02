@@ -1,6 +1,6 @@
 name: Test on Pull_request event
 on:
-  push:
+  pull_request: 
 jobs:
   test-on-pull-job:
     runs-on: ubuntu-latest
