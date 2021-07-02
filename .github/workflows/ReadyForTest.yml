@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event.review.state == 'approved'
     steps:
-      - name: Check PL is approved
+      - name: Check if PL is approved
         uses: luisrjaeger/approved-event-checker@master
         id: approved
         with:
@@ -16,19 +16,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Debuggithub
-        run: echo " - ${{ toJson(github) }} "
-
-      - name: Debuggithub 1
-        run: echo " - ${{ toJson(github.event.pull_request.head) }} "
-
-      - name: Debuggithub 3
-        run: echo " - ${{ toJson(github.event.pull_request.head.ref) }} "
-
-      - name: Debug echo status
-        run: echo "approve - ${{ steps.approved.outputs.approved }} "
-
-      - name: abort if PL not approved
+      - name: Abort if PL is not approved
         if: steps.approved.outputs.approved == false
         run: exit 1
 
