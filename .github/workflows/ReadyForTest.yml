@@ -20,7 +20,7 @@ jobs:
         run: echo "approve - ${{ steps.approved.outputs.approved }} "
 
       - name: abort if PL not approved
-        if: steps.approved.outputs.approved != true
+        if: steps.approved.outputs.approved == false
         run: exit 1
 
       - name: Parse Jira ticket id
