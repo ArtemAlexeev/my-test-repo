@@ -17,5 +17,5 @@ jobs:
       - name: Echo branch
         run: echo "${{ toJson(github.head_ref) }}"
 
-      - name: Echo branch
+      - name: Echo mergable
         run: echo "${{ toJson(github.event.pull_request.mergeable) }} --- ${{ toJson(github.event.pull_request.mergeable_state) }}"
