@@ -19,7 +19,7 @@ jobs:
         run: echo "${{ github.event.pull_request }} "
 
       - name: Echo mergeable
-        run: echo "${{ github.event.pull_request.mergeable }} --- ${{ github.event.mergeable }} ---  ${{ github.mergeable }}
+        run: echo "${{ github.event.pull_request.mergeable }} --- ${{ github.event.mergeable }} ---  ${{ github.mergeable }}"
 
       - name: Branch
         run: echo " --- branch - ${{ toJson(github.head_ref) }}"
