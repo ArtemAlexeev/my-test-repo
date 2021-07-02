@@ -7,9 +7,19 @@ jobs:
     runs-on: ubuntu-latest
     #if: github.event.pull_request.mergeable == true
     steps:
-      - name: Echo logs
+      - name: Echo github
+        #if: github.event.review.state == 'approved' && github.event.pull_request.mergeable == 'true'
+        run: echo "state - ${{ github }} "
+
+      - name: Echo event
         #if: github.event.review.state == 'approved' && github.event.pull_request.mergeable == 'true'
         run: echo "state - ${{ github.event.review.state }} --- branch - ${{ toJson(github.head_ref) }}"
 
-      - name: echo logs
-        run: echo "${{ github.event.pull_request.mergeable }} --- ${{ github.event.pull_request.mergeable_state }}"
+      - name: Echo pull_request
+        run: echo "${{ github.event.pull_request }} "
+
+      - name: Echo mergeable
+        run: echo "${{ github.event.pull_request.mergeable }} --- ${{ github.event.mergeable }} ---  ${{ github.mergeable }}
+
+      - name: Branch
+        run: echo " --- branch - ${{ toJson(github.head_ref) }}"
