@@ -19,6 +19,12 @@ jobs:
       - name: Debuggithub
         run: echo " - ${{ toJson(github) }} "
 
+      - name: Debuggithub 1
+        run: echo " - ${{ toJson(github.event.head) }} "
+
+      - name: Debuggithub 3
+        run: echo " - ${{ toJson(github.event.head.ref) }} "
+
       - name: Debug echo status
         run: echo "approve - ${{ steps.approved.outputs.approved }} "
 
@@ -29,7 +35,7 @@ jobs:
       - name: Parse Jira ticket id
         shell: bash
         id: ticket-id
-        run: echo "##[set-output name=issue;]$(echo ${{ github.head_ref }} | grep -oP '^ALDEV-\d+')"
+        run: echo "##[set-output name=issue;]$(echo ${{ github.event.head.ref }} | grep -oP '^ALDEV-\d+')"
 
       - name: Login to Jira
         uses: atlassian/gajira-login@master
