@@ -1,0 +1,42 @@
+name: Ready for Test status
+on:
+  pull_request_review:
+    types: [submitted]
+jobs:
+  ready-for-test-job:
+    runs-on: ubuntu-latest
+    if: github.event.review.state == 'approved'
+    steps:
+      - name: Check PL is approved
+        uses: luisrjaeger/approved-event-checker@master
+        id: approved
+        with:
+          approvals: 2
+          check_changes_requested: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Debug echo status
+        run: echo "approve - ${{ steps.approved.outputs.approved }} "
+
+      - name: abort if PL not approved
+        if: steps.approved.outputs.approved != true
+        run: exit 1
+
+      - name: Parse Jira ticket id
+        shell: bash
+        id: ticket-id
+        run: echo "##[set-output name=issue;]$(echo ${{ github.head_ref }} | grep -oP '^ALDEV-\d+')"
+
+      - name: Login to Jira
+        uses: atlassian/gajira-login@master
+        env:
+          JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
+          JIRA_USER_EMAIL: ${{ secrets.JIRA_USER_EMAIL }}
+          JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
+
+      - name: Move to Merged status
+        uses: atlassian/gajira-transition@master
+        with:
+          issue: ${{ steps.ticket-id.outputs.issue }}
+          transition: "Done" # here will be Merged
