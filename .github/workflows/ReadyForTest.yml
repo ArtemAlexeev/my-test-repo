@@ -16,6 +16,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Debuggithub
+        run: echo " - ${{ toJson(github) }} "
+
       - name: Debug echo status
         run: echo "approve - ${{ steps.approved.outputs.approved }} "
 
@@ -39,4 +42,4 @@ jobs:
         uses: atlassian/gajira-transition@master
         with:
           issue: ${{ steps.ticket-id.outputs.issue }}
-          transition: "Done" # here will be Merged
+          transition: "DONE" # here will be Merged
