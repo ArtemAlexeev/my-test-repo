@@ -9,13 +9,13 @@ jobs:
         run: echo "state - ${{ toJson(github) }} " # no mergable properties
 
       - name: Echo event
-        run: echo "state - ${{ github.event }}"
+        run: echo "state - ${{ toJson(github.event) }}"
 
       - name: Echo event pull_request
-        run: echo "state - ${{ github.event.pull_request }}"
+        run: echo "state - ${{ toJson(github.event.pull_request) }}"
 
       - name: Echo branch
         run: echo "${{ toJson(github.head_ref) }}"
 
-      - name: Echo action
-        run: echo "${{ toJson(github.action) }} "
+      - name: Echo branch
+        run: echo "${{ toJson(github.event.pull_request.mergeable) }} --- ${{ toJson(github.event.pull_request.mergeable_state) }}"
