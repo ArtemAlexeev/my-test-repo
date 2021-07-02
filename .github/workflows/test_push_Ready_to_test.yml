@@ -1,0 +1,21 @@
+name: Test on Pull_request event
+on:
+  pull_request:
+jobs:
+  test-on-pull-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Echo github
+        run: echo "state - ${{ toJson(github) }} " # no mergable properties
+
+      - name: Echo event
+        run: echo "state - ${{ github.event }}"
+
+      - name: Echo event pull_request
+        run: echo "state - ${{ github.event.pull_request }}"
+
+      - name: Echo branch
+        run: echo "${{ toJson(github.head_ref) }}"
+
+      - name: Echo action
+        run: echo "${{ toJson(github.action) }} "
