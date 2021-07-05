@@ -1,4 +1,4 @@
-name: Ready for Test status
+name: Move Jira ticket to Ready for Test status
 on:
   pull_request_review:
     types: [submitted]

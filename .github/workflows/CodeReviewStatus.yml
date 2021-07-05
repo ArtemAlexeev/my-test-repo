@@ -1,4 +1,4 @@
-name: Jira ticket to Code Review status
+name: Move Jira ticket to Code Review status
 on:
   pull_request:
     types: [opened]
