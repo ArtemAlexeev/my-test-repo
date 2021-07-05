@@ -20,11 +20,11 @@ jobs:
         run:  echo "approvved - ${{ steps.approved.outputs.approved }} --- "
 
       - name: If true
-        if: steps.approved.outputs.approved == true
+        if: steps.approved.outputs.approved == 'true'
         run: exit 1
 
       - name: If false
-        if: steps.approved.outputs.approved == false
+        if: steps.approved.outputs.approved == 'false'
         run: exit 1
 
 
