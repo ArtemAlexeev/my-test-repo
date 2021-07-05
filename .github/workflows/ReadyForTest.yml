@@ -39,8 +39,12 @@ jobs:
       - name: Debug 3
         run:  echo "s - contains(${{ steps.ticket-id.outputs.issue }}, 'ALDEV') --- "
 
+      - name: Debug 4
+        run:  echo "s - ${{ steps.ticket-id.outputs.issue }} --- "
+
       - name: Move to Merged status
-        if: steps.approved.outputs.approved == 'true' && contains(${{ steps.ticket-id.outputs.issue }}, 'ALDEV')
+        if: steps.approved.outputs.approved == 'true' && steps.ticket-id.outputs.issue
+        #if: steps.approved.outputs.approved == 'true' && contains(${{ steps.ticket-id.outputs.issue }}, 'ALDEV')
         uses: atlassian/gajira-transition@master
         with:
           issue: ${{ steps.ticket-id.outputs.issue }}
