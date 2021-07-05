@@ -1,0 +1,10 @@
+on:
+  pull_request:
+name: Example Job
+jobs:
+  myJob:
+    runs-on: ubuntu-latest
+    steps:
+
+      - run: echo "Hello, world!"
+        name: echo stage
