@@ -26,7 +26,7 @@ jobs:
         run: echo "##[set-output name=issue;]$(echo ${{ github.event.pull_request.head.ref }} | grep -oP '^ALDEV-\d+')"
 
       - name: Login to Jira
-        if: ${{ success() }}
+        if: steps.approved.outputs.approved == 'true'
         uses: atlassian/gajira-login@master
         env:
           JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
