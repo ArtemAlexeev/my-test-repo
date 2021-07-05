@@ -17,12 +17,16 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Debug
-        if: steps.approved.outputs.approved == false
         run:  echo "approvved - ${{ steps.approved.outputs.approved }} --- "
 
-      - name: Abort if PL is not approved
+      - name: If true
+        if: steps.approved.outputs.approved == true
+        run: exit 1
+
+      - name: If false
         if: steps.approved.outputs.approved == false
         run: exit 1
+
 
       - name: Parse Jira ticket id
         if: ${{ success() }}
