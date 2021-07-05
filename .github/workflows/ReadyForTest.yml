@@ -5,11 +5,37 @@ on:
 jobs:
   ready-for-test-job:
     runs-on: ubuntu-latest
-    #if: github.event.pull_request.mergeable == true
+    if: github.event.review.state == 'approved'
     steps:
-      - name: Echo logs
-        #if: github.event.review.state == 'approved' && github.event.pull_request.mergeable == 'true'
-        run: echo "state - ${{ github.event.review.state }} --- branch - ${{ toJson(github.head_ref) }}"
+      - name: Check if PL has 2 approvals
+        uses: luisrjaeger/approved-event-checker@master
+        id: approved
+        with:
+          approvals: 2
+          check_changes_requested: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: echo logs
-        run: echo "${{ github.event.pull_request.mergeable }} --- ${{ github.event.pull_request.mergeable_state }}"
+      - name: Debug
+        run:  echo "approvved - ${{ steps.approved.outputs.approved }} --- "
+
+      - name: Parse Jira ticket id
+        if: steps.approved.outputs.approved == 'true'
+        shell: bash
+        id: ticket-id
+        run: echo "##[set-output name=issue;]$(echo ${{ github.event.pull_request.head.ref }} | grep -oP '^ALDEV-\d+')"
+
+      - name: Login to Jira
+        if: ${{ success() }}
+        uses: atlassian/gajira-login@master
+        env:
+          JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
+          JIRA_USER_EMAIL: ${{ secrets.JIRA_USER_EMAIL }}
+          JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
+
+      - name: Move to Merged status
+        if: contains(${{ steps.ticket-id.outputs.issue }}, 'ALDEV')
+        uses: atlassian/gajira-transition@master
+        with:
+          issue: ${{ steps.ticket-id.outputs.issue }}
+          transition: "DONE" # here will be Merged
