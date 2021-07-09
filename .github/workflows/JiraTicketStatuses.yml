@@ -1,0 +1,87 @@
+name: Change Jira ticket status
+on:
+  pull_request:
+    types: [opened, closed]
+  pull_request_review:
+    types: [ submitted ]
+jobs:
+  code-review-status-job:
+    if: github.event_name == 'pull_request' && github.event.action == 'opened'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Parse Jira ticket id
+        shell: bash
+        id: ticket-id
+        run: echo "##[set-output name=issue;]$(echo ${{ github.head_ref }} | grep -oP '^ALDEV-\d+')"
+
+      - name: Echo Jira ticket id
+        run: echo "${{ steps.ticket-id.outputs.issue }}"
+
+      - name: Login to Jira
+        uses: atlassian/gajira-login@master
+        env:
+          JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
+          JIRA_USER_EMAIL: ${{ secrets.JIRA_USER_EMAIL }}
+          JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
+
+      - name: Move to In Progress status
+        uses: atlassian/gajira-transition@master
+        with:
+          issue: ${{ steps.ticket-id.outputs.issue }}
+          transition: "In Progress" # here will be Code Review status
+
+  ready-for-test-job:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request_review' && github.event.review.state == 'approved'
+    steps:
+      - name: Check if PL has 2 approvals
+        uses: luisrjaeger/approved-event-checker@master
+        id: approved
+        with:
+          approvals: 2
+          check_changes_requested: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Parse Jira ticket id
+        if: steps.approved.outputs.approved == 'true'
+        shell: bash
+        id: ticket-id
+        run: echo "##[set-output name=issue;]$(echo ${{ github.event.pull_request.head.ref }} | grep -oP '^ALDEV-\d+')"
+
+      - name: Login to Jira
+        if: steps.approved.outputs.approved == 'true'
+        uses: atlassian/gajira-login@master
+        env:
+          JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
+          JIRA_USER_EMAIL: ${{ secrets.JIRA_USER_EMAIL }}
+          JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
+
+      - name: Move to Merged status
+        if: steps.approved.outputs.approved == 'true' && steps.ticket-id.outputs.issue
+        uses: atlassian/gajira-transition@master
+        with:
+          issue: ${{ steps.ticket-id.outputs.issue }}
+          transition: "DONE" # her1e will be Merged
+
+  merged-status-job:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true
+    steps:
+      - name: Parse Jira ticket id
+        shell: bash
+        id: ticket-id
+        run: echo "##[set-output name=issue;]$(echo ${{ github.head_ref }} | grep -oP '^ALDEV-\d+')"
+
+      - name: Login to Jira
+        uses: atlassian/gajira-login@master
+        env:
+          JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
+          JIRA_USER_EMAIL: ${{ secrets.JIRA_USER_EMAIL }}
+          JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
+
+      - name: Move to Merged status
+        uses: atlassian/gajira-transition@master
+        with:
+          issue: ${{ steps.ticket-id.outputs.issue }}
+          transition: "Done" # here will be Merged
