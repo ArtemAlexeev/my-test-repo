@@ -25,7 +25,7 @@ jobs:
       - name: Echo Jira ticket id
         if: steps.ticket-id.outputs.issue != ''
         run: echo "${{ steps.ticket-id.outputs.issue }}"
-
+#
 
       - name: Echo Jira ticket id
         if: steps.ticket-id.outputs.issue
