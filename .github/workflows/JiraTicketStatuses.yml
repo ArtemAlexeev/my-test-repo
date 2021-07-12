@@ -17,7 +17,23 @@ jobs:
       - name: Echo Jira ticket id
         run: echo "${{ steps.ticket-id.outputs.issue }}"
 
+
+      - name: Echo Jira ticket id
+        run: echo "${{ steps.ticket-id.outputs.issue }}"
+
+
+      - name: Echo Jira ticket id
+        if: steps.ticket-id.outputs.issue != ''
+        run: echo "${{ steps.ticket-id.outputs.issue }}"
+
+
+      - name: Echo Jira ticket id
+        if: steps.ticket-id.outputs.issue
+        run: echo "${{ steps.ticket-id.outputs.issue }}"
+
+
       - name: Login to Jira
+        if: steps.ticket-id.outputs.issue
         uses: atlassian/gajira-login@master
         env:
           JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
@@ -25,6 +41,7 @@ jobs:
           JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
 
       - name: Move to In Progress status
+        if: steps.ticket-id.outputs.issue
         uses: atlassian/gajira-transition@master
         with:
           issue: ${{ steps.ticket-id.outputs.issue }}
