@@ -10,7 +10,7 @@ on:
 jobs:
   deploy-to-dev:
     environment: ${{ github.event.inputs.dev }}
-    runs-on: [ self-hosted ]
+    runs-on: ubuntu-latest
     steps:
       - name: export my something
         id: export
