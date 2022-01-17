@@ -16,3 +16,4 @@ jobs:
         id: export
         run: |
           echo "GITHUB_SHA_CURRENT_BRANCH=$(git rev-parse HEAD)" >> $GITHUB_ENV
+  caption:${{ github.event.inputs.dev }}
