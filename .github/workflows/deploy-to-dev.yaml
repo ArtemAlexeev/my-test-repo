@@ -1,11 +1,8 @@
 name: Deploy To Some Server
 
 on:
-  workflow_dispatch:
-    inputs:
-      dev:
-        required: true
-        description: dev name (optimus/starscream/thunderwing/mirage/bumblebee)
+  workflow_dispatch
+
 
 jobs:
   deploy-to-dev:
