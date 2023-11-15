@@ -13,7 +13,7 @@ env:
   
 jobs:
   print-value-from-input:
-    runs-on: ["${{ inputs.runner-name }}"]
+    runs-on: [ubuntu-latest]
     steps:
       - name: Print the input name to STDOUT
         run: echo Runner name is ${{ inputs.runner-name }} and $DEFAULT_RUNNER
