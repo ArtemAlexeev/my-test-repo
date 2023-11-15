@@ -9,7 +9,7 @@ on:
       
 jobs:
   print-value-from-input:
-    runs-on: [ubuntu-latest]
+    runs-on: ["${{ inputs.runner-name }}", ubuntu-latest2]
     steps:
       - name: Print the input name to STDOUT
         run: echo Runner name is ${{ inputs.runner-name }}
