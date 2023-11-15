@@ -9,10 +9,10 @@ on:
 
 env:
   DEFAULT_RUNNER: ${{ inputs.runner-name ||  'ubuntu-latest'}}
-  
+
 jobs:
   print-value-from-input:
-    runs-on: "${{ inputs.runner-name ||  [ubuntu-latest]}}"
+    runs-on: ${{ inputs.runner-name || fromJson('["ubuntu-latest"]') }}
     steps:
       - name: Print the input name to STDOUT
         run: echo Runner name is ${{ inputs.runner-name }} and ${{  env.DEFAULT_RUNNER }}
