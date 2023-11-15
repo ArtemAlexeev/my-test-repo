@@ -8,11 +8,11 @@ on:
         required: false
 
 env:
-  DEFAULT_RUNNER: '["self-hosted", "ubuntu-self-prod"]'
+  DEFAULT_RUNNER: ${{ inputs.runner-name ||  'ubuntu-latest'}}
   
 jobs:
   print-value-from-input:
-    runs-on: [ubuntu-latest]
+    runs-on: ${{ env.DEFAULT_RUNNER }}
     steps:
       - name: Print the input name to STDOUT
-        run: echo Runner name is ${{ inputs.runner-name }} and ${{ fromJSON( env.DEFAULT_RUNNER ) }}
+        run: echo Runner name is ${{ inputs.runner-name }} and ${{  env.DEFAULT_RUNNER }}
