@@ -6,12 +6,10 @@ on:
       runner-name:
         type: string
         required: false
-env:
-  DEFAULT_RUNNER: '["self-hosted", "ubuntu-self-prod"]'
 
 jobs:
   print-value-from-input:
-    runs-on: ${{ inputs.runner-name || fromJson(env.DEFAULT_RUNNER) }}
+    runs-on: ${{ inputs.runner-name || fromJson( '["self-hosted", "ubuntu-self-prod"]' ) }}
     steps:
       - name: Print the input name to STDOUT
         run: echo Runner name is ${{ inputs.runner-name }}
