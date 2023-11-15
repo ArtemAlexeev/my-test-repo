@@ -12,7 +12,7 @@ env:
   
 jobs:
   print-value-from-input:
-    runs-on: ${{ env.DEFAULT_RUNNER }}
+    runs-on: "${{ env.DEFAULT_RUNNER }}"
     steps:
       - name: Print the input name to STDOUT
         run: echo Runner name is ${{ inputs.runner-name }} and ${{  env.DEFAULT_RUNNER }}
