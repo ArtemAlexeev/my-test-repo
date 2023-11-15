@@ -1,15 +1,15 @@
-name: Deploy To Some Server
+name: Test action
 
 on:
-  workflow_dispatch
-
-
+  workflow_dispatch:
+    inputs:
+      runner-name:
+        type: string
+        required: false
+      
 jobs:
-  deploy-to-dev:
-    environment: ${{ github.event.inputs.dev }}
-    runs-on: ubuntu-latest
+  print-value-from-input:
+    runs-on: [ubuntu-latest]
     steps:
-      - name: export my something
-        id: export
-        run: |
-          echo "GITHUB_SHA_CURRENT_BRANCH=$(git rev-parse HEAD)" >> $GITHUB_ENV
+      - name: Print the input name to STDOUT
+        run: echo Runner name is ${{ inputs.runner-name }}
